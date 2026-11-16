@@ -1,0 +1,26 @@
+name: Web project file check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository files
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          for file in index.html style.css script.js; do
+            if [ -f "$file" ]; then
+              echo "OK: $file найден"
+            else
+              echo "ERROR: $file не найден"
+              exit 1
+            fi
+          done
+          echo "Все необходимые файлы найдены."
